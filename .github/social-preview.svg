@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b1220"/>
+      <stop offset="1" stop-color="#16263f"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#5CDD8B"/>
+      <stop offset="1" stop-color="#3BB2E0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1280" height="640" fill="url(#bg)"/>
+  <rect x="80" y="118" width="120" height="8" rx="4" fill="url(#accent)"/>
+
+  <text x="78" y="232" font-family="Helvetica, Arial, sans-serif" font-size="94" font-weight="700" fill="#ffffff">kumauptime</text>
+
+  <text x="82" y="300" font-family="Helvetica, Arial, sans-serif" font-size="34" fill="#c7d2e0">Multi-tenant status pages + Slack alerts</text>
+  <text x="82" y="346" font-family="Helvetica, Arial, sans-serif" font-size="34" fill="#c7d2e0">on one self-hosted Uptime Kuma instance</text>
+
+  <circle cx="94" cy="430" r="10" fill="#5CDD8B"/>
+  <text x="118" y="439" font-family="Helvetica, Arial, sans-serif" font-size="26" fill="#8aa0b6">status.yourproject.com &#8212; all systems operational</text>
+
+  <text x="80" y="506" font-family="Helvetica, Arial, sans-serif" font-size="27" font-weight="700" fill="#5CDD8B">Docker  &#183;  Caddy auto-HTTPS  &#183;  Slack down/up alerts  &#183;  per-domain TLS</text>
+
+  <text x="80" y="582" font-family="Helvetica, Arial, sans-serif" font-size="24" fill="#6b7d92">github.com/zakrian07/kumauptime  &#183;  MIT</text>
+</svg>

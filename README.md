@@ -133,8 +133,11 @@ the off-host heartbeat enabled.
 - **Always go through `make`** (`make deploy` / `make up`), never a bare `docker compose up -d`:
   the targets render the Caddyfile first and reload Caddy after. Running compose directly before
   rendering makes Docker create a *directory* at `caddy/Caddyfile` and Caddy crash-loops.
-- **Pin the image** in prod: replace `louislam/uptime-kuma:1` with a digest
-  (`louislam/uptime-kuma@sha256:…`) and bump deliberately.
+- **Image pinning:** the Kuma image is pinned to a digest in `docker-compose.yml` for
+  reproducibility — bump it deliberately with
+  `docker inspect --format '{{index .RepoDigests 0}}' louislam/uptime-kuma:1`. Caddy stays on `:2`
+  so `make deploy` keeps pulling TLS security patches; pin it the same way if you want full
+  reproducibility.
 - **Single point of failure:** if this host dies, all status pages *and* alerting go dark. The
   watchdog + an off-host `HEARTBEAT_PING_URL` (e.g. healthchecks.io) is the out-of-band safety net.
 - **Back up `caddy-data`** too (certs) — `make backup` does; avoids Let's Encrypt rate limits on

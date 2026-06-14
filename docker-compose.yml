@@ -7,7 +7,7 @@ name: kumauptime
 
 services:
   uptime-kuma:
-    image: louislam/uptime-kuma:1        # tracks the 1.x line. Pin a digest in prod (see README).
+    image: louislam/uptime-kuma@sha256:3d632903e6af34139a37f18055c4f1bfd9b7205ae1138f1e5e8940ddc1d176f9  # :1 line, pinned for reproducibility — bump deliberately (see README)
     container_name: kuma
     restart: unless-stopped
     networks: [edge]

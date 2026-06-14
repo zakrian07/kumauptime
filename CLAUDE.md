@@ -83,6 +83,8 @@ image against the rendered file, catching bad directives and unset domains.
 - The compose `name:` is `kumauptime`, so volumes are `kumauptime_kuma-data` etc. Backup/restore use
   `--volumes-from <container>` to sidestep that prefix — keep using container names (`kuma`,
   `caddy`), not raw volume names.
-- Pin the Kuma image to a digest for production bumps; the tag `:1` tracks the 1.x line.
+- The Kuma image is pinned to a digest in docker-compose.yml (the `:1` line). Bump deliberately via
+  `docker inspect --format '{{index .RepoDigests 0}}' louislam/uptime-kuma:1`. Caddy stays on `:2`
+  (TLS security patches via `make deploy`).
 - This stack is a single point of failure for both status pages and alerting — preserve the watchdog
   + off-host heartbeat when refactoring; don't remove the out-of-band path.
