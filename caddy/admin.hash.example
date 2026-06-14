@@ -1,0 +1,10 @@
+GENERATE the real file caddy/admin.hash (gitignored) — do not copy this one.
+It must contain ONLY the bcrypt hash on a single line. Generate it with:
+
+  make hash            # prompts for the password (keeps it out of shell history)
+
+Avoid putting the plaintext on the command line (e.g. `caddy hash-password --plaintext 'pw'`)
+— it leaks into shell history and the process list. `make hash` passes it via an env var instead.
+
+Example of what the generated file looks like (do NOT use this value):
+$2a$14$bPUVyCTBKu022eWbulixWeX0TlpscswPMmeao7WtjjsDy8/alD1E.

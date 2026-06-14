@@ -1,0 +1,40 @@
+# TEMPLATE — committed and human-edited. scripts/render-caddyfile.sh substitutes the
+# @@PLACEHOLDERS@@ from .env + caddy/admin.hash into the gitignored caddy/Caddyfile,
+# which is what Caddy actually loads. Edit THIS file, never the generated one.
+
+{
+	# Let's Encrypt registration email (cert-expiry notices, recovery).
+	email @@ACME_EMAIL@@
+}
+
+# Reusable hardening snippet applied to every site.
+(common) {
+	encode zstd gzip
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "strict-origin-when-cross-origin"
+	}
+}
+
+# ── Public status pages ───────────────────────────────────────────────────────
+# @@STATUS_DOMAINS@@ is the space-separated host list from .env. Caddy auto-issues a
+# cert per host and routes all of them to Uptime Kuma, which serves the matching
+# status page by Host header. Each host must also be added to that Status Page's
+# "Domain Names" field in the Kuma UI and have a DNS record. reverse_proxy upgrades
+# Kuma's WebSocket (socket.io) automatically.
+@@STATUS_DOMAINS@@ {
+	import common
+	reverse_proxy uptime-kuma:3001
+}
+
+# ── Admin dashboard ───────────────────────────────────────────────────────────
+# Own host, fronted by Basic Auth as defense-in-depth over Kuma's own login.
+@@ADMIN_DOMAIN@@ {
+	import common
+	basic_auth {
+		@@ADMIN_BASICAUTH_USER@@ @@ADMIN_BASICAUTH_HASH@@
+	}
+	reverse_proxy uptime-kuma:3001
+}
