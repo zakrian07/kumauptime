@@ -2,6 +2,7 @@
 
 > Self-hosted **status pages for many projects from a single [Uptime Kuma](https://github.com/louislam/uptime-kuma) instance** — each on its own subdomain (`status.yourproject.com`) — with automatic HTTPS via **Caddy** and **Slack downtime alerts**, including for the third-party REST APIs you depend on. A production-ready **Docker Compose** stack.
 
+[![CI](https://github.com/zakrian07/kumauptime/actions/workflows/ci.yml/badge.svg)](https://github.com/zakrian07/kumauptime/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Docker Compose](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white)](docker-compose.yml)
 [![Caddy auto-HTTPS](https://img.shields.io/badge/Caddy-auto--HTTPS-1F88C0?logo=caddy&logoColor=white)](caddy/Caddyfile.tmpl)

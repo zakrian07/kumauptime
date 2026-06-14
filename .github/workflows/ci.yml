@@ -1,0 +1,35 @@
+# CI — lint the Bash scripts and validate the rendered Caddyfile + Compose stack.
+# Mirrors the local checks from README ("run shellcheck scripts/*.sh and make validate"):
+#   1. shellcheck every script         (preinstalled on ubuntu-latest)
+#   2. render caddy/Caddyfile from the template using dummy .env + admin.hash
+#   3. docker compose config -q + caddy validate, both driven by `make validate`
+# The dummy config exists only on the runner; no real secrets are committed (see .gitignore).
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Least privilege: this workflow only reads the repo.
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Lint shell scripts
+        run: shellcheck scripts/*.sh
+
+      - name: Prepare dummy config for validation
+        run: |
+          cp .env.example .env
+          docker run --rm caddy:2 caddy hash-password --plaintext 'ci-dummy' > caddy/admin.hash
+
+      - name: Render + validate Caddyfile and Compose
+        run: make validate

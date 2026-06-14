@@ -1,0 +1,81 @@
+name: Feature request
+description: Suggest an improvement to the deploy stack (Compose / Caddy / scripts / Make targets).
+title: "[feat]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the idea. This repo is the **deployment layer** (Docker Compose, Caddy, and
+        Bash operational scripts) around a single Uptime Kuma instance — it ships no application
+        source. Feature requests for monitors, status pages, or the Kuma UI belong upstream at
+        [louislam/uptime-kuma](https://github.com/louislam/uptime-kuma).
+
+        For open-ended ideas or "would you accept a PR for…?", a
+        [Discussion](https://github.com/zakrian07/kumauptime/discussions) is often a better fit.
+
+        ⚠️ **Do not paste secrets** in examples — redact `.env` values (`SLACK_WEBHOOK_URL`,
+        `HEARTBEAT_PING_URL`), `caddy/admin.hash`, and the rendered `caddy/Caddyfile`.
+  - type: checkboxes
+    id: prechecks
+    attributes:
+      label: Pre-flight
+      options:
+        - label: I searched existing issues/discussions and didn't find this already proposed.
+          required: true
+        - label: This concerns the deployment stack here, not the Uptime Kuma application itself.
+          required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem / motivation
+      description: What's painful or missing today? What are you trying to accomplish?
+      placeholder: "Adding a new status domain still needs a manual Kuma UI step, so…"
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: What you'd like to see — new Make target, script flag, Caddyfile option, compose change, docs.
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area this touches
+      options:
+        - Caddy / Caddyfile.tmpl / TLS
+        - docker-compose.yml / containers / volumes
+        - Scripts (render / deploy / hash / watchdog / backup / restore / bootstrap)
+        - Makefile targets
+        - Documentation (README / CLAUDE.md / .env.example)
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Other approaches you weighed, and why this one.
+    validations:
+      required: false
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Scope check
+      description: This stack is intentionally minimal (one instance, hardened defaults, validation gate).
+      options:
+        - label: This keeps the stack reproducible and doesn't expose Kuma directly to the host.
+          required: false
+        - label: This doesn't weaken the secret-handling model (`.env` / `admin.hash` / rendered `Caddyfile` stay gitignored).
+          required: false
+        - label: I'd be willing to open a PR for this (with `make validate` and `shellcheck scripts/*.sh` clean).
+          required: false
+  - type: textarea
+    id: extra
+    attributes:
+      label: Anything else
+      description: Mockups, links, related upstream issues, etc.
+    validations:
+      required: false

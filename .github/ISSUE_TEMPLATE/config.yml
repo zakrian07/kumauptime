@@ -1,0 +1,18 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Questions & ideas (GitHub Discussions)
+    url: https://github.com/zakrian07/kumauptime/discussions
+    about: >
+      Setup help, "would you accept a PR for…?", and open-ended questions. Please don't paste
+      secrets — redact .env values (SLACK_WEBHOOK_URL), caddy/admin.hash, and the rendered
+      caddy/Caddyfile.
+  - name: Uptime Kuma application issues (upstream)
+    url: https://github.com/louislam/uptime-kuma
+    about: >
+      Bugs or requests about monitors, status pages, or the Kuma UI belong upstream — this repo
+      is the deployment stack (Compose + Caddy + scripts) only.
+  - name: Report a security vulnerability (private advisory)
+    url: https://github.com/zakrian07/kumauptime/security/advisories/new
+    about: >
+      Please report security issues privately via a GitHub Security Advisory rather than a public
+      issue. Never include live secrets.

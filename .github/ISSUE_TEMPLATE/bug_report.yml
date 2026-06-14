@@ -1,0 +1,139 @@
+name: Bug report
+description: Something in the deploy stack (Compose / Caddy / scripts) behaves wrong.
+title: "[bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for filing a bug. This is a **deployment-only** repo (Docker Compose + Caddy +
+        Bash scripts) — not the Uptime Kuma app itself. If your issue is with monitors, status
+        pages, or the Kuma UI, please report it upstream at
+        [louislam/uptime-kuma](https://github.com/louislam/uptime-kuma).
+
+        ⚠️ **Never paste secrets.** Redact everything in `.env` (especially `SLACK_WEBHOOK_URL`
+        and `HEARTBEAT_PING_URL`), the contents of `caddy/admin.hash`, the rendered
+        `caddy/Caddyfile` (it embeds the bcrypt hash), and any TLS material. Replace them with
+        `REDACTED` before submitting.
+  - type: checkboxes
+    id: prechecks
+    attributes:
+      label: Pre-flight
+      options:
+        - label: I searched existing issues and didn't find a duplicate.
+          required: true
+        - label: This is about the deployment stack here, not the Uptime Kuma application.
+          required: true
+        - label: I removed all secrets (`.env` values, webhook URL, `admin.hash`, rendered `Caddyfile`) from everything I pasted below.
+          required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What went wrong, and what you expected instead.
+      placeholder: "After `make deploy`, Caddy crash-loops and status.<project>.com returns 502…"
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      description: The exact commands you ran, in order.
+      placeholder: |
+        1. cp .env.example .env && edited STATUS_DOMAINS=…
+        2. make hash
+        3. make validate
+        4. make deploy
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected area
+      options:
+        - Caddy / TLS / reverse proxy
+        - docker-compose.yml / containers / volumes
+        - render-caddyfile.sh (rendering / placeholders)
+        - deploy.sh / make deploy
+        - set-admin-password.sh / admin.hash / Basic Auth
+        - watchdog.sh (down/up alerts, heartbeat)
+        - backup.sh / restore.sh
+        - bootstrap-server.sh (server prep / UFW)
+        - Other / not sure
+    validations:
+      required: true
+  - type: textarea
+    id: validate-output
+    attributes:
+      label: "`make validate` output"
+      description: >
+        Run `make validate` and paste the full output (it renders the Caddyfile, then runs
+        `docker compose config -q` and `caddy validate`). This catches most config issues.
+      render: text
+    validations:
+      required: false
+  - type: textarea
+    id: shellcheck-output
+    attributes:
+      label: "`shellcheck scripts/*.sh` output (if a script is involved)"
+      description: Paste the output if your issue touches anything in `scripts/`.
+      render: text
+    validations:
+      required: false
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs
+      description: >
+        Paste `make logs` (or `docker compose logs`) around the failure — Caddy and/or Kuma.
+        **Redact any domains, IPs, or secrets you don't want public.**
+      render: text
+    validations:
+      required: false
+  - type: input
+    id: docker-version
+    attributes:
+      label: Docker version
+      description: Output of `docker --version`.
+      placeholder: "Docker version 27.x.x"
+    validations:
+      required: true
+  - type: input
+    id: compose-version
+    attributes:
+      label: Docker Compose version
+      description: Output of `docker compose version`.
+      placeholder: "Docker Compose version v2.x.x"
+    validations:
+      required: true
+  - type: input
+    id: caddy-image
+    attributes:
+      label: Caddy image / tag
+      description: The caddy image tag or digest in use (validation runs against `caddy:2`).
+      placeholder: "caddy:2"
+    validations:
+      required: false
+  - type: input
+    id: kuma-image
+    attributes:
+      label: Uptime Kuma image / tag
+      description: The `louislam/uptime-kuma` tag or digest from your compose file.
+      placeholder: "louislam/uptime-kuma:1"
+    validations:
+      required: false
+  - type: input
+    id: host-os
+    attributes:
+      label: Host OS / arch
+      description: The VPS / host the stack runs on.
+      placeholder: "Ubuntu 24.04 / x86_64"
+    validations:
+      required: true
+  - type: textarea
+    id: extra
+    attributes:
+      label: Anything else
+      description: Other context — DNS setup, number of `STATUS_DOMAINS`, off-host heartbeat, etc.
+    validations:
+      required: false
